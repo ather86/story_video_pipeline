@@ -1,0 +1,146 @@
+{
+  "video_meta": {
+    "title": "Story to Video",
+    "platform": "linkedin",
+    "aspect_ratio": "1:1",
+    "total_duration_sec": 25,
+    "style_preset": "minimal"
+  },
+  "global_style": {
+    "visual_style": "clean digital illustration",
+    "color_palette": "neutral tones",
+    "lighting": "soft ambient",
+    "camera_language": "stable framing"
+  },
+  "characters": [
+    {
+      "id": "char_1",
+      "description": "person working on a laptop",
+      "clothing": "casual clothes",
+      "age_range": "30-40",
+      "consistency_notes": "same person in all scenes"
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "duration_sec": 5,
+      "visual": {
+        "environment": "home workspace",
+        "characters_present": [
+          "char_1"
+        ],
+        "key_objects": "laptop",
+        "action": "person reflecting",
+        "camera": "static shot"
+      },
+      "emotion": "neutral",
+      "narration": {
+        "text": "I used to have many ideas, but I struggled to turn them into videos",
+        "voice": "male",
+        "pace": "normal"
+      },
+      "image_generation": {
+        "prompt": "person working on laptop, I used to have many ideas, but I struggled to turn them into videos, clean digital illustration",
+        "negative_prompt": "blurry, distorted, low quality",
+        "seed": 12345
+      }
+    },
+    {
+      "scene_id": 2,
+      "duration_sec": 5,
+      "visual": {
+        "environment": "home workspace",
+        "characters_present": [
+          "char_1"
+        ],
+        "key_objects": "laptop",
+        "action": "person reflecting",
+        "camera": "static shot"
+      },
+      "emotion": "neutral",
+      "narration": {
+        "text": "Writing came easily, but visuals felt confusing and time-consuming",
+        "voice": "male",
+        "pace": "normal"
+      },
+      "image_generation": {
+        "prompt": "person working on laptop, Writing came easily, but visuals felt confusing and time-consuming, clean digital illustration",
+        "negative_prompt": "blurry, distorted, low quality",
+        "seed": 12345
+      }
+    },
+    {
+      "scene_id": 3,
+      "duration_sec": 5,
+      "visual": {
+        "environment": "home workspace",
+        "characters_present": [
+          "char_1"
+        ],
+        "key_objects": "laptop",
+        "action": "person reflecting",
+        "camera": "static shot"
+      },
+      "emotion": "neutral",
+      "narration": {
+        "text": "I tried different tools, but everything felt fragmented and messy",
+        "voice": "male",
+        "pace": "normal"
+      },
+      "image_generation": {
+        "prompt": "person working on laptop, I tried different tools, but everything felt fragmented and messy, clean digital illustration",
+        "negative_prompt": "blurry, distorted, low quality",
+        "seed": 12345
+      }
+    },
+    {
+      "scene_id": 4,
+      "duration_sec": 5,
+      "visual": {
+        "environment": "home workspace",
+        "characters_present": [
+          "char_1"
+        ],
+        "key_objects": "laptop",
+        "action": "person reflecting",
+        "camera": "static shot"
+      },
+      "emotion": "neutral",
+      "narration": {
+        "text": "So I decided to break my stories into simple scenes",
+        "voice": "male",
+        "pace": "normal"
+      },
+      "image_generation": {
+        "prompt": "person working on laptop, So I decided to break my stories into simple scenes, clean digital illustration",
+        "negative_prompt": "blurry, distorted, low quality",
+        "seed": 12345
+      }
+    },
+    {
+      "scene_id": 5,
+      "duration_sec": 5,
+      "visual": {
+        "environment": "home workspace",
+        "characters_present": [
+          "char_1"
+        ],
+        "key_objects": "laptop",
+        "action": "person reflecting",
+        "camera": "static shot"
+      },
+      "emotion": "neutral",
+      "narration": {
+        "text": "Now every idea turns into a clear, structured video",
+        "voice": "male",
+        "pace": "normal"
+      },
+      "image_generation": {
+        "prompt": "person working on laptop, Now every idea turns into a clear, structured video, clean digital illustration",
+        "negative_prompt": "blurry, distorted, low quality",
+        "seed": 12345
+      }
+    }
+  ]
+}
