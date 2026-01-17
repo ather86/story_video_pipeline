@@ -5,6 +5,12 @@ __pycache__/
 *.pyd
 venv/
 .env
+outputs/
+__pycache__/
+*.wav
+*.mp4
+*.png
+
 
 # Streamlit
 .streamlit/

@@ -4,41 +4,27 @@ Planner Module
 
 Responsibility:
 - Convert raw story text into a structured scene_manifest.json
-
-Scope (STRICT):
-- Reads input story text
-- Breaks it into scenes
-- Populates schema fields
-- Writes ONLY to schemas/scene_manifest.json
-
-Out of Scope:
-- Image generation
-- Audio generation
-- Video generation
 """
 
 from pathlib import Path
 import json
 
 
-# Path to schema file
 SCHEMA_PATH = Path("schemas/scene_manifest.json")
 
 
 def plan_story_to_scenes(story_text: str) -> dict:
     """
     Simple rule-based planner (v1).
-    One sentence = one scene (max 5 scenes).
+    One sentence = one scene (max 5).
     """
 
-    # Split story into sentences
     sentences = [s.strip() for s in story_text.split(".") if s.strip()]
     scene_count = min(len(sentences), 5)
 
-    total_duration = 25  # seconds
+    total_duration = 25
     scene_duration = total_duration // scene_count
 
-    # Base manifest
     scene_manifest = {
         "video_meta": {
             "title": "Story to Video",
@@ -65,7 +51,6 @@ def plan_story_to_scenes(story_text: str) -> dict:
         "scenes": []
     }
 
-    # Build scenes
     for idx in range(scene_count):
         scene_manifest["scenes"].append({
             "scene_id": idx + 1,
@@ -94,17 +79,13 @@ def plan_story_to_scenes(story_text: str) -> dict:
 
 
 def write_scene_manifest(scene_manifest: dict):
-    """
-    Writes the scene manifest to disk.
-    This is the ONLY file this module writes to.
-    """
     with open(SCHEMA_PATH, "w", encoding="utf-8") as f:
         json.dump(scene_manifest, f, indent=2)
 
 
 def run_planner(story_text: str):
     """
-    Public entry point called from Streamlit UI.
+    Public entry point used by Streamlit.
     """
     scene_manifest = plan_story_to_scenes(story_text)
     write_scene_manifest(scene_manifest)

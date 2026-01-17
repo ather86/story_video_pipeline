@@ -1,10 +1,11 @@
 """
-Final Stitcher Module
----------------------
+Final Stitcher Module (v3 - Bulletproof Audio + Video)
+-----------------------------------------------------
 
-Responsibility:
-- Combine scene video clips into a single final video
-- Uses absolute paths to avoid FFmpeg concat issues
+Uses FFmpeg filter_complex concat
+✔ Works on Windows
+✔ Preserves audio
+✔ Safe re-encode
 """
 
 import json
@@ -12,9 +13,9 @@ import subprocess
 from pathlib import Path
 
 
-SCENE_PATH = Path("schemas/scene_manifest.json").resolve()
-CLIPS_DIR = Path("outputs/clips").resolve()
-OUTPUT_DIR = Path("outputs/final").resolve()
+SCENE_PATH = Path("schemas/scene_manifest.json")
+CLIPS_DIR = Path("outputs/clips")
+OUTPUT_DIR = Path("outputs/final")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
@@ -23,28 +24,45 @@ def stitch_final_video():
         manifest = json.load(f)
 
     scenes = manifest.get("scenes", [])
+    if not scenes:
+        raise RuntimeError("No scenes found to stitch.")
 
-    concat_file = OUTPUT_DIR / "concat_list.txt"
-    with open(concat_file, "w", encoding="utf-8") as f:
-        for scene in scenes:
-            scene_id = scene["scene_id"]
-            clip_path = CLIPS_DIR / f"scene_{scene_id:02d}.mp4"
-            f.write(f"file '{clip_path.as_posix()}'\n")
+    # Build FFmpeg input list
+    ffmpeg_inputs = []
+    filter_parts = []
+
+    for idx, scene in enumerate(scenes):
+        scene_id = scene["scene_id"]
+        clip_path = CLIPS_DIR / f"scene_{scene_id:02d}.mp4"
+
+        if not clip_path.exists():
+            raise FileNotFoundError(f"Missing clip: {clip_path}")
+
+        ffmpeg_inputs.extend(["-i", str(clip_path)])
+        filter_parts.append(f"[{idx}:v][{idx}:a]")
+
+    filter_complex = (
+        "".join(filter_parts)
+        + f"concat=n={len(scenes)}:v=1:a=1[outv][outa]"
+    )
 
     final_video_path = OUTPUT_DIR / "final_video.mp4"
 
     cmd = [
         "ffmpeg",
         "-y",
-        "-f", "concat",
-        "-safe", "0",
-        "-i", str(concat_file),
+        *ffmpeg_inputs,
+        "-filter_complex", filter_complex,
+        "-map", "[outv]",
+        "-map", "[outa]",
         "-c:v", "libx264",
         "-pix_fmt", "yuv420p",
         "-c:a", "aac",
+        "-b:a", "160k",
         str(final_video_path)
     ]
 
+    print("[STITCH] Stitching final video with filter_complex...")
     subprocess.run(cmd, check=True)
 
     return final_video_path

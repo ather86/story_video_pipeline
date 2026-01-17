@@ -1,25 +1,29 @@
 """
-Audio Generation Module (v1 - Stub)
-----------------------------------
+Audio Generation Module (v2 - Real TTS using Coqui, Windows Safe)
+---------------------------------------------------------------
 
 Responsibility:
 - Read scene_manifest.json
-- Generate one narration audio file per scene
-
-NOTE:
-- This is a placeholder implementation.
-- Real TTS will be integrated later.
+- Generate narration audio per scene
+- Uses a model that does NOT require espeak
 """
 
 import json
 from pathlib import Path
-import wave
-import struct
+from TTS.api import TTS
 
 
 SCENE_PATH = Path("schemas/scene_manifest.json")
 OUTPUT_DIR = Path("outputs/audio")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+# Windows-safe model (NO espeak dependency)
+MODEL_NAME = "tts_models/en/ljspeech/tacotron2-DDC"
+
+
+def load_tts():
+    tts = TTS(model_name=MODEL_NAME, progress_bar=False)
+    return tts
 
 
 def generate_audio():
@@ -27,24 +31,19 @@ def generate_audio():
         manifest = json.load(f)
 
     scenes = manifest.get("scenes", [])
+    tts = load_tts()
 
     for scene in scenes:
         scene_id = scene["scene_id"]
-        narration_text = scene["narration"]["text"]
+        text = scene["narration"]["text"]
 
-        # Create silent WAV as placeholder
         output_path = OUTPUT_DIR / f"scene_{scene_id:02d}.wav"
 
-        duration_sec = scene["duration_sec"]
-        sample_rate = 44100
-        num_samples = duration_sec * sample_rate
+        print(f"[TTS] Generating audio for scene {scene_id}...")
 
-        with wave.open(str(output_path), "w") as wf:
-            wf.setnchannels(1)
-            wf.setsampwidth(2)
-            wf.setframerate(sample_rate)
-
-            silence = struct.pack("<h", 0)
-            wf.writeframes(silence * num_samples)
+        tts.tts_to_file(
+            text=text,
+            file_path=str(output_path)
+        )
 
     return len(scenes)

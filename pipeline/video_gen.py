@@ -1,14 +1,11 @@
 """
-Video Generation Module (v1 - Stub)
-----------------------------------
+Video Generation Module (v7 - Stable & Correct)
+-----------------------------------------------
 
-Responsibility:
-- Read scene_manifest.json
-- Combine image + audio into a scene video clip
-
-NOTE:
-- Uses ffmpeg
-- No motion effects yet
+Fixes:
+- Uses valid FFmpeg flags only
+- Prevents infinite image loop
+- Ensures audible audio on Windows
 """
 
 import json
@@ -31,25 +28,41 @@ def generate_scene_videos():
 
     for scene in scenes:
         scene_id = scene["scene_id"]
-        duration = scene["duration_sec"]
 
         image_path = IMAGE_DIR / f"scene_{scene_id:02d}.png"
         audio_path = AUDIO_DIR / f"scene_{scene_id:02d}.wav"
         output_path = OUTPUT_DIR / f"scene_{scene_id:02d}.mp4"
 
+        print(f"[VIDEO] Generating scene video {scene_id}...")
+
         cmd = [
             "ffmpeg",
-            "-y",                         # overwrite
+            "-y",
+
+            # Inputs
             "-loop", "1",
             "-i", str(image_path),
             "-i", str(audio_path),
+
+            # Correct modern sync option
+            "-fps_mode", "vfr",
+
+            # Force universally playable audio
+            "-ar", "44100",
+            "-ac", "2",
+
+            # Encoding
             "-c:v", "libx264",
-            "-t", str(duration),
             "-pix_fmt", "yuv420p",
             "-c:a", "aac",
+            "-b:a", "160k",
+
+            # Stop when audio ends
+            "-shortest",
+
             str(output_path)
         ]
 
-        subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.run(cmd, check=True)
 
     return len(scenes)
