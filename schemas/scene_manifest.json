@@ -24,7 +24,7 @@
   "scenes": [
     {
       "scene_id": 1,
-      "duration_sec": 5,
+      "duration_sec": 25,
       "visual": {
         "environment": "home workspace",
         "characters_present": [
@@ -36,108 +36,12 @@
       },
       "emotion": "neutral",
       "narration": {
-        "text": "I used to have many ideas, but I struggled to turn them into videos",
+        "text": "Minimal editorial illustration, single clear visual metaphor for [CORE IDEA],\nno text, no UI elements, no realistic humans,\nlimited color palette (2\u20133 colors),\nclean background, strong focal point,\nconsistent flat vector style,\nhigh contrast, YouTube thumbnail readable",
         "voice": "male",
         "pace": "normal"
       },
       "image_generation": {
-        "prompt": "person working on laptop, I used to have many ideas, but I struggled to turn them into videos, clean digital illustration",
-        "negative_prompt": "blurry, distorted, low quality",
-        "seed": 12345
-      }
-    },
-    {
-      "scene_id": 2,
-      "duration_sec": 5,
-      "visual": {
-        "environment": "home workspace",
-        "characters_present": [
-          "char_1"
-        ],
-        "key_objects": "laptop",
-        "action": "person reflecting",
-        "camera": "static shot"
-      },
-      "emotion": "neutral",
-      "narration": {
-        "text": "Writing came easily, but visuals felt confusing and time-consuming",
-        "voice": "male",
-        "pace": "normal"
-      },
-      "image_generation": {
-        "prompt": "person working on laptop, Writing came easily, but visuals felt confusing and time-consuming, clean digital illustration",
-        "negative_prompt": "blurry, distorted, low quality",
-        "seed": 12345
-      }
-    },
-    {
-      "scene_id": 3,
-      "duration_sec": 5,
-      "visual": {
-        "environment": "home workspace",
-        "characters_present": [
-          "char_1"
-        ],
-        "key_objects": "laptop",
-        "action": "person reflecting",
-        "camera": "static shot"
-      },
-      "emotion": "neutral",
-      "narration": {
-        "text": "I tried different tools, but everything felt fragmented and messy",
-        "voice": "male",
-        "pace": "normal"
-      },
-      "image_generation": {
-        "prompt": "person working on laptop, I tried different tools, but everything felt fragmented and messy, clean digital illustration",
-        "negative_prompt": "blurry, distorted, low quality",
-        "seed": 12345
-      }
-    },
-    {
-      "scene_id": 4,
-      "duration_sec": 5,
-      "visual": {
-        "environment": "home workspace",
-        "characters_present": [
-          "char_1"
-        ],
-        "key_objects": "laptop",
-        "action": "person reflecting",
-        "camera": "static shot"
-      },
-      "emotion": "neutral",
-      "narration": {
-        "text": "So I decided to break my stories into simple scenes",
-        "voice": "male",
-        "pace": "normal"
-      },
-      "image_generation": {
-        "prompt": "person working on laptop, So I decided to break my stories into simple scenes, clean digital illustration",
-        "negative_prompt": "blurry, distorted, low quality",
-        "seed": 12345
-      }
-    },
-    {
-      "scene_id": 5,
-      "duration_sec": 5,
-      "visual": {
-        "environment": "home workspace",
-        "characters_present": [
-          "char_1"
-        ],
-        "key_objects": "laptop",
-        "action": "person reflecting",
-        "camera": "static shot"
-      },
-      "emotion": "neutral",
-      "narration": {
-        "text": "Now every idea turns into a clear, structured video",
-        "voice": "male",
-        "pace": "normal"
-      },
-      "image_generation": {
-        "prompt": "person working on laptop, Now every idea turns into a clear, structured video, clean digital illustration",
+        "prompt": "person working on laptop, Minimal editorial illustration, single clear visual metaphor for [CORE IDEA],\nno text, no UI elements, no realistic humans,\nlimited color palette (2\u20133 colors),\nclean background, strong focal point,\nconsistent flat vector style,\nhigh contrast, YouTube thumbnail readable, clean digital illustration",
         "negative_prompt": "blurry, distorted, low quality",
         "seed": 12345
       }

@@ -1,10 +1,11 @@
 """
-Final Stitcher Module (v3 - Bulletproof Audio + Video)
------------------------------------------------------
+Final Stitcher Module (v4 - Bulletproof Audio + Video)
+----------------------------------------------------
 
 Uses FFmpeg filter_complex concat
 ✔ Works on Windows
 ✔ Preserves audio
+✔ Forces identical audio format
 ✔ Safe re-encode
 """
 
@@ -27,7 +28,6 @@ def stitch_final_video():
     if not scenes:
         raise RuntimeError("No scenes found to stitch.")
 
-    # Build FFmpeg input list
     ffmpeg_inputs = []
     filter_parts = []
 
@@ -53,12 +53,24 @@ def stitch_final_video():
         "-y",
         *ffmpeg_inputs,
         "-filter_complex", filter_complex,
+
+        # explicit mapping
         "-map", "[outv]",
         "-map", "[outa]",
+
+        # 🔥 FORCE AUDIO COMPATIBILITY
+        "-ar", "44100",
+        "-ac", "2",
+
+        # codecs
         "-c:v", "libx264",
         "-pix_fmt", "yuv420p",
         "-c:a", "aac",
         "-b:a", "160k",
+
+        # playback safety
+        "-movflags", "+faststart",
+
         str(final_video_path)
     ]
 
