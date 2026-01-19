@@ -1,0 +1,168 @@
+{
+  "3": {
+    "inputs": {
+      "seed": 450735137551536,
+      "steps": 30,
+      "cfg": 2.6,
+      "sampler_name": "res_multistep",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "11",
+        0
+      ],
+      "positive": [
+        "26:7",
+        0
+      ],
+      "negative": [
+        "25:7",
+        0
+      ],
+      "latent_image": [
+        "13",
+        0
+      ]
+    },
+    "class_type": "KSampler"
+  },
+
+  "4": {
+    "inputs": {
+      "ckpt_name": "NetaYumev35_pretrained_all_in_one.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+
+  "8": {
+    "inputs": {
+      "samples": [
+        "3",
+        0
+      ],
+      "vae": [
+        "4",
+        2
+      ]
+    },
+    "class_type": "VAEDecode"
+  },
+
+  "9": {
+    "inputs": {
+      "filename_prefix": "NetaYume_Lumina_3.5",
+      "output_dir": "D:/AI/story_video_pipeline/outputs/images",
+      "images": [
+        "8",
+        0
+      ]
+    },
+    "class_type": "SaveImage"
+  },
+
+  "11": {
+    "inputs": {
+      "shift": 4,
+      "model": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "ModelSamplingAuraFlow"
+  },
+
+  "13": {
+    "inputs": {
+      "width": 1024,
+      "height": 576,
+      "batch_size": 1
+    },
+    "class_type": "EmptySD3LatentImage"
+  },
+
+  "25:22": {
+    "inputs": {
+      "string_a": [
+        "25:23",
+        0
+      ],
+      "string_b": [
+        "25:24",
+        0
+      ],
+      "delimiter": ""
+    },
+    "class_type": "StringConcatenate"
+  },
+
+  "25:23": {
+    "inputs": {
+      "value": "Negative prompt <Prompt Start>: "
+    },
+    "class_type": "PrimitiveStringMultiline"
+  },
+
+  "25:24": {
+    "inputs": {
+      "value": "speech bubble, dialogue, talking, saying,\nwords, letters, text,\ncaption, subtitle,\ncomic style, meme, joke,\nexpression lines, sound effects,\nclose-up portrait, headshot, face centered, beauty shot\n"
+    },
+    "class_type": "PrimitiveStringMultiline"
+  },
+
+  "25:7": {
+    "inputs": {
+      "text": [
+        "25:22",
+        0
+      ],
+      "clip": [
+        "4",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+
+  "26:23": {
+    "inputs": {
+      "value": "You are an assistant designed to generate cinematic story illustration scenes. Focus on environment, action, and storytelling first. Characters should be shown naturally within the scene, not as portraits. Use wide or medium shots unless explicitly requested. <Prompt Start> "
+    },
+    "class_type": "PrimitiveStringMultiline"
+  },
+
+  "26:24": {
+    "inputs": {
+      "value": ""
+    },
+    "class_type": "PrimitiveStringMultiline"
+  },
+
+  "26:22": {
+    "inputs": {
+      "string_a": [
+        "26:23",
+        0
+      ],
+      "string_b": [
+        "26:24",
+        0
+      ],
+      "delimiter": ""
+    },
+    "class_type": "StringConcatenate"
+  },
+
+  "26:7": {
+    "inputs": {
+      "text": [
+        "26:22",
+        0
+      ],
+      "clip": [
+        "4",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode"
+  }
+}

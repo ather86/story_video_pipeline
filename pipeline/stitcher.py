@@ -1,12 +1,13 @@
 """
-Final Stitcher Module (v4 - Bulletproof Audio + Video)
-----------------------------------------------------
+Final Stitcher Module (v5 - Run-Aware, Bulletproof Audio + Video)
+---------------------------------------------------------------
 
 Uses FFmpeg filter_complex concat
 ✔ Works on Windows
 ✔ Preserves audio
 ✔ Forces identical audio format
 ✔ Safe re-encode
+✔ Run-aware (no cross-run collisions)
 """
 
 import json
@@ -15,12 +16,12 @@ from pathlib import Path
 
 
 SCENE_PATH = Path("schemas/scene_manifest.json")
-CLIPS_DIR = Path("outputs/clips")
+VIDEOS_DIR = Path("outputs/videos")
 OUTPUT_DIR = Path("outputs/final")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def stitch_final_video():
+def stitch_final_video(run_id: str):
     with open(SCENE_PATH, "r", encoding="utf-8") as f:
         manifest = json.load(f)
 
@@ -33,7 +34,7 @@ def stitch_final_video():
 
     for idx, scene in enumerate(scenes):
         scene_id = scene["scene_id"]
-        clip_path = CLIPS_DIR / f"scene_{scene_id:02d}.mp4"
+        clip_path = VIDEOS_DIR / f"{run_id}_scene_{scene_id}.mp4"
 
         if not clip_path.exists():
             raise FileNotFoundError(f"Missing clip: {clip_path}")
@@ -46,7 +47,7 @@ def stitch_final_video():
         + f"concat=n={len(scenes)}:v=1:a=1[outv][outa]"
     )
 
-    final_video_path = OUTPUT_DIR / "final_video.mp4"
+    final_video_path = OUTPUT_DIR / f"{run_id}_final.mp4"
 
     cmd = [
         "ffmpeg",
@@ -58,7 +59,7 @@ def stitch_final_video():
         "-map", "[outv]",
         "-map", "[outa]",
 
-        # 🔥 FORCE AUDIO COMPATIBILITY
+        # force audio compatibility
         "-ar", "44100",
         "-ac", "2",
 
@@ -74,7 +75,8 @@ def stitch_final_video():
         str(final_video_path)
     ]
 
-    print("[STITCH] Stitching final video with filter_complex...")
+    print(f"[STITCH] Stitching final video for run: {run_id}")
     subprocess.run(cmd, check=True)
 
+    print(f"[STITCH] Final video ready: {final_video_path}")
     return final_video_path

@@ -1,6 +1,6 @@
 """
-Audio Generation Module (v5 - Bulletproof Tacotron2, Windows Safe)
-----------------------------------------------------------------
+Audio Generation Module (v6 - Run-Aware, Bulletproof Tacotron2)
+--------------------------------------------------------------
 
 Fixes:
 ✔ Smart quotes crash
@@ -8,6 +8,7 @@ Fixes:
 ✔ Short kernel crash
 ✔ Silence-trim destroying audio
 ✔ Blank WAV detection + auto-recovery
+✔ Run-aware output isolation
 """
 
 import json
@@ -77,7 +78,12 @@ def load_tts():
     )
 
 
-def generate_audio():
+def generate_audio(run_id: str):
+    """
+    Generates narration audio per scene.
+    Output files are isolated per run_id.
+    """
+
     with open(SCENE_PATH, "r", encoding="utf-8") as f:
         manifest = json.load(f)
 
@@ -95,25 +101,23 @@ def generate_audio():
 
         text = ensure_min_length(text)
 
-        output_path = OUTPUT_DIR / f"scene_{scene_id:02d}.wav"
+        output_path = OUTPUT_DIR / f"{run_id}_scene_{scene_id}.wav"
 
         print(f"[TTS] Generating audio for scene {scene_id}...")
         print(f"     Text → {text}")
 
-        # 🔥 KEY FIXES HERE
         tts.tts_to_file(
             text=text,
             file_path=str(output_path),
-            split_sentences=False,   # ❌ disable internal splitting
+            split_sentences=False,
         )
 
-        # 🔍 Validate WAV
+        # Validate WAV
         if not wav_has_audio(output_path):
             print(f"[TTS][WARN] Blank audio detected for scene {scene_id}, regenerating...")
 
             fallback_text = (
-                text
-                + " Remember, patience and effort always bring rewards."
+                text + " Remember, patience and effort always bring rewards."
             )
 
             tts.tts_to_file(

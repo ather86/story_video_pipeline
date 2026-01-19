@@ -2,11 +2,16 @@ import streamlit as st
 from pathlib import Path
 import json
 
+from src.utils.run_id import generate_run_id
+
+# NEW PIPELINE IMPORTS
 from pipeline.planner import run_planner
-from pipeline.image_gen import generate_images
+from src.image_generation.comfy_t2i import run_comfy_api_workflow
+from src.prompts.prompt_builder import build_image_prompt
 from pipeline.audio_gen import generate_audio
-from pipeline.video_gen import generate_scene_videos
+from pipeline.image_to_video import generate_scene_videos
 from pipeline.stitcher import stitch_final_video
+
 
 
 st.set_page_config(page_title="Story → Video Pipeline", layout="centered")
@@ -30,52 +35,70 @@ if st.button("🚀 Run Full Pipeline"):
         st.warning("Please enter a story.")
         st.stop()
 
+    # -------------------------------
+    # 1️⃣ PLAN SCENES
+    # -------------------------------
     with st.spinner("🧠 Planning scenes..."):
         run_planner(story_text)
 
+    # Load manifest
+    with open("schemas/scene_manifest.json", "r", encoding="utf-8") as f:
+        manifest = json.load(f)
+
+    scenes = manifest["scenes"]
+    global_style = manifest["global_style"]
+
+    character_map = {
+        c["id"]: c for c in manifest.get("characters", [])
+    }
+
+    run_id = generate_run_id()
+    st.info(f"🆔 Run ID: {run_id}")
+
+    # -------------------------------
+    # 2️⃣ IMAGE GENERATION
+    # -------------------------------
     if not skip_images:
         with st.spinner("🖼️ Generating images..."):
-            generate_images()
+            for scene in scenes:
+                scene_id = scene["scene_id"]
+                prompt = build_image_prompt(scene, global_style, character_map)
+
+                run_comfy_api_workflow(
+                    api_workflow_path="comfy/workflows/image_netayume_lumina_t2i_api.json",
+                    prompt_text=prompt,
+                    run_id=run_id,
+                    scene_id=scene_id
+                )
     else:
         st.info("⚡ Image generation skipped")
 
+    # -------------------------------
+    # 3️⃣ AUDIO GENERATION
+    # -------------------------------
     if not skip_audio:
         with st.spinner("🎧 Generating audio..."):
-            generate_audio()
+            generate_audio(run_id)
     else:
         st.info("🔇 Audio generation skipped")
 
+    # -------------------------------
+    # 4️⃣ IMAGE → VIDEO
+    # -------------------------------
     with st.spinner("🎞️ Creating scene videos..."):
-        generate_scene_videos()
+        generate_scene_videos(run_id)
 
+    # -------------------------------
+    # 5️⃣ STITCH FINAL VIDEO
+    # -------------------------------
     with st.spinner("🧩 Stitching final video..."):
-        final_path = stitch_final_video()
+        final_path = stitch_final_video(run_id)
 
     st.success("🎉 Video generated successfully!")
 
-    # ---------- PREVIEW SECTION ----------
-    st.divider()
-    st.subheader("📽️ Scene Preview")
-
-    scene_manifest = Path("schemas/scene_manifest.json")
-    if scene_manifest.exists():
-        with open(scene_manifest, "r", encoding="utf-8") as f:
-            scenes = json.load(f).get("scenes", [])
-
-        for scene in scenes:
-            sid = scene["scene_id"]
-
-            st.markdown(f"### Scene {sid}")
-
-            img_path = Path(f"outputs/images/scene_{sid:02d}.png")
-            audio_path = Path(f"outputs/audio/scene_{sid:02d}.wav")
-
-            if img_path.exists():
-                st.image(str(img_path), use_column_width=True)
-
-            if audio_path.exists():
-                st.audio(str(audio_path))
-
+    # -------------------------------
+    # PREVIEW
+    # -------------------------------
     st.divider()
     st.subheader("🎬 Final Video")
 
@@ -84,6 +107,6 @@ if st.button("🚀 Run Full Pipeline"):
         st.download_button(
             "⬇️ Download Final Video",
             data=open(final_path, "rb"),
-            file_name="final_video.mp4",
+            file_name=f"{run_id}_final.mp4",
             mime="video/mp4"
         )
