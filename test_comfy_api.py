@@ -11,9 +11,7 @@ scenes = manifest["scenes"]
 global_style = manifest["global_style"]
 
 # Build character lookup map
-character_map = {
-    c["id"]: c for c in manifest["characters"]
-}
+character_map = {c["character_id"]: c for c in manifest["characters"]}
 
 # Generate run ID
 run_id = generate_run_id()
@@ -32,7 +30,7 @@ for scene in scenes:
 
     run_comfy_api_workflow(
         api_workflow_path="comfy/workflows/image_netayume_lumina_t2i_api.json",
-        prompt_text=prompt,
+        prompts=prompt,
         run_id=run_id,
         scene_id=scene_id
     )

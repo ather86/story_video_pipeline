@@ -3,7 +3,7 @@
     "title": "Story to Video",
     "platform": "linkedin",
     "aspect_ratio": "1:1",
-    "total_duration_sec": 25
+    "total_duration_sec": 16
   },
   "global_style": {
     "visual_style": "clean digital illustration",
@@ -13,73 +13,286 @@
   },
   "characters": [
     {
-      "id": "char_1",
-      "description": "person working on a laptop",
-      "clothing": "casual clothes",
-      "age_range": "30-40",
-      "consistency_notes": "same person in all scenes"
+      "character_id": "crow",
+      "name": "The Crow",
+      "description": "A sleek black bird with a greyish-black face and legs, wearing no discernible clothing as it is a bird"
     }
   ],
   "scenes": [
     {
       "scene_id": 1,
-      "duration_sec": 8,
+      "duration_sec": 1,
       "visual": {
-        "environment": "home workspace",
-        "characters_present": [
-          "char_1"
-        ],
-        "key_objects": [
-          "laptop"
-        ],
-        "action": "person reflecting",
+        "environment": "",
+        "characters_present": [],
+        "key_objects": [],
+        "action": "",
         "camera": "static shot"
       },
-      "emotion": "neutral",
+      "emotion": "",
       "narration": {
-        "text": "I sit at my desk thinking about a new idea",
+        "text": "One hot day, a thirsty crow flew all over the fields looking for water.",
         "voice": "male",
         "pace": "normal"
       }
     },
     {
       "scene_id": 2,
-      "duration_sec": 8,
+      "duration_sec": 1,
       "visual": {
-        "environment": "home workspace",
-        "characters_present": [
-          "char_1"
-        ],
-        "key_objects": [
-          "laptop"
-        ],
-        "action": "person reflecting",
+        "environment": "",
+        "characters_present": [],
+        "key_objects": [],
+        "action": "",
         "camera": "static shot"
       },
-      "emotion": "neutral",
+      "emotion": "",
       "narration": {
-        "text": "I open my laptop and start writing code",
+        "text": "For a long time, he could not find any.",
         "voice": "male",
         "pace": "normal"
       }
     },
     {
       "scene_id": 3,
-      "duration_sec": 8,
+      "duration_sec": 1,
       "visual": {
-        "environment": "home workspace",
-        "characters_present": [
-          "char_1"
-        ],
-        "key_objects": [
-          "laptop"
-        ],
-        "action": "person reflecting",
+        "environment": "",
+        "characters_present": [],
+        "key_objects": [],
+        "action": "",
         "camera": "static shot"
       },
-      "emotion": "neutral",
+      "emotion": "",
       "narration": {
-        "text": "The solution finally works and I feel relieved",
+        "text": "He felt very weak, almost lost all hope.",
+        "voice": "male",
+        "pace": "normal"
+      }
+    },
+    {
+      "scene_id": 4,
+      "duration_sec": 1,
+      "visual": {
+        "environment": "",
+        "characters_present": [],
+        "key_objects": [],
+        "action": "",
+        "camera": "static shot"
+      },
+      "emotion": "",
+      "narration": {
+        "text": "Suddenly, he saw a water jug below the tree.",
+        "voice": "male",
+        "pace": "normal"
+      }
+    },
+    {
+      "scene_id": 5,
+      "duration_sec": 1,
+      "visual": {
+        "environment": "",
+        "characters_present": [],
+        "key_objects": [],
+        "action": "",
+        "camera": "static shot"
+      },
+      "emotion": "",
+      "narration": {
+        "text": "He flew straight down to see if there was any water inside.",
+        "voice": "male",
+        "pace": "normal"
+      }
+    },
+    {
+      "scene_id": 6,
+      "duration_sec": 1,
+      "visual": {
+        "environment": "",
+        "characters_present": [],
+        "key_objects": [],
+        "action": "",
+        "camera": "static shot"
+      },
+      "emotion": "",
+      "narration": {
+        "text": "Yes, he could see some water inside the jug!",
+        "voice": "male",
+        "pace": "normal"
+      }
+    },
+    {
+      "scene_id": 7,
+      "duration_sec": 1,
+      "visual": {
+        "environment": "",
+        "characters_present": [
+          "crow"
+        ],
+        "key_objects": [],
+        "action": "",
+        "camera": "static shot"
+      },
+      "emotion": "",
+      "narration": {
+        "text": "The crow tried to push his head into the jug.",
+        "voice": "male",
+        "pace": "normal"
+      }
+    },
+    {
+      "scene_id": 8,
+      "duration_sec": 1,
+      "visual": {
+        "environment": "",
+        "characters_present": [],
+        "key_objects": [],
+        "action": "",
+        "camera": "static shot"
+      },
+      "emotion": "",
+      "narration": {
+        "text": "Sadly, he found that the neck of the jug was too narrow.",
+        "voice": "male",
+        "pace": "normal"
+      }
+    },
+    {
+      "scene_id": 9,
+      "duration_sec": 1,
+      "visual": {
+        "environment": "",
+        "characters_present": [],
+        "key_objects": [],
+        "action": "",
+        "camera": "static shot"
+      },
+      "emotion": "",
+      "narration": {
+        "text": "Then he tried to push the jug to tilt for the water to flow out, but the jug was too heavy.",
+        "voice": "male",
+        "pace": "normal"
+      }
+    },
+    {
+      "scene_id": 10,
+      "duration_sec": 1,
+      "visual": {
+        "environment": "",
+        "characters_present": [
+          "crow"
+        ],
+        "key_objects": [],
+        "action": "",
+        "camera": "static shot"
+      },
+      "emotion": "",
+      "narration": {
+        "text": "The crow thought hard for a while.",
+        "voice": "male",
+        "pace": "normal"
+      }
+    },
+    {
+      "scene_id": 11,
+      "duration_sec": 1,
+      "visual": {
+        "environment": "",
+        "characters_present": [],
+        "key_objects": [],
+        "action": "",
+        "camera": "static shot"
+      },
+      "emotion": "",
+      "narration": {
+        "text": "Then, looking around it, he saw some pebbles.",
+        "voice": "male",
+        "pace": "normal"
+      }
+    },
+    {
+      "scene_id": 12,
+      "duration_sec": 1,
+      "visual": {
+        "environment": "",
+        "characters_present": [],
+        "key_objects": [],
+        "action": "",
+        "camera": "static shot"
+      },
+      "emotion": "",
+      "narration": {
+        "text": "He suddenly had a good idea.",
+        "voice": "male",
+        "pace": "normal"
+      }
+    },
+    {
+      "scene_id": 13,
+      "duration_sec": 1,
+      "visual": {
+        "environment": "",
+        "characters_present": [],
+        "key_objects": [],
+        "action": "",
+        "camera": "static shot"
+      },
+      "emotion": "",
+      "narration": {
+        "text": "He started picking up the pebbles one by one, dropping each into the jug.",
+        "voice": "male",
+        "pace": "normal"
+      }
+    },
+    {
+      "scene_id": 14,
+      "duration_sec": 1,
+      "visual": {
+        "environment": "",
+        "characters_present": [],
+        "key_objects": [],
+        "action": "",
+        "camera": "static shot"
+      },
+      "emotion": "",
+      "narration": {
+        "text": "As more and more pebbles filled the jug, the water level kept rising.",
+        "voice": "male",
+        "pace": "normal"
+      }
+    },
+    {
+      "scene_id": 15,
+      "duration_sec": 1,
+      "visual": {
+        "environment": "",
+        "characters_present": [
+          "crow"
+        ],
+        "key_objects": [],
+        "action": "",
+        "camera": "static shot"
+      },
+      "emotion": "",
+      "narration": {
+        "text": "Soon it was high enough for the crow to drink.",
+        "voice": "male",
+        "pace": "normal"
+      }
+    },
+    {
+      "scene_id": 16,
+      "duration_sec": 1,
+      "visual": {
+        "environment": "",
+        "characters_present": [],
+        "key_objects": [],
+        "action": "",
+        "camera": "static shot"
+      },
+      "emotion": "",
+      "narration": {
+        "text": "His plan had worked!",
         "voice": "male",
         "pace": "normal"
       }

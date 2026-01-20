@@ -10,6 +10,8 @@ Responsibility:
 
 from pathlib import Path
 import json
+import re
+from pipeline.llm_character_extractor import extract_characters
 
 
 SCHEMA_PATH = Path("schemas/scene_manifest.json")
@@ -19,18 +21,29 @@ def plan_story_to_scenes(story_text: str) -> dict:
     """
     Simple rule-based planner (v2).
     - One sentence = one scene
-    - Max 5 scenes
     - Semantics ONLY
     """
 
-    sentences = [s.strip() for s in story_text.split(".") if s.strip()]
-    scene_count = min(len(sentences), 5)
+    # --- Character Extraction (Simulated LLM) ---
+    # This is the new step to extract character data.
+    characters = extract_characters(story_text)
+
+
+    # Normalize whitespace (e.g., newlines, tabs) to a single space
+    normalized_text = re.sub(r'\s+', ' ', story_text).strip()
+
+    # Split by punctuation (.?!) followed by whitespace, avoiding common abbreviations
+    # We require the next character to be Uppercase to avoid splitting on "v1.5", "approx. 10", etc.
+    sentences = [s.strip() for s in re.split(r'(?<=[.?!])\s+(?=[A-Z])', normalized_text) if s.strip()]
+    scene_count = len(sentences)
 
     if scene_count == 0:
         raise ValueError("Story text produced zero scenes.")
 
-    total_duration = 25
-    scene_duration = total_duration // scene_count
+    # Make duration robust for any number of scenes.
+    # Each scene gets at least 1s, and the total duration is recalculated.
+    scene_duration = max(1, 25 // scene_count)
+    total_duration = scene_count * scene_duration
 
     scene_manifest = {
         "video_meta": {
@@ -45,30 +58,30 @@ def plan_story_to_scenes(story_text: str) -> dict:
             "lighting": "soft ambient",
             "camera_language": "stable framing",
         },
-        "characters": [
-            {
-                "id": "char_1",
-                "description": "person working on a laptop",
-                "clothing": "casual clothes",
-                "age_range": "30-40",
-                "consistency_notes": "same person in all scenes",
-            }
-        ],
+        # NOTE: Character and scene details are now placeholders.
+        # A more advanced NLP/LLM step is needed to extract these from the story.
+        "characters": characters,
         "scenes": [],
     }
 
-    for idx in range(scene_count):
+    for idx, sentence in enumerate(sentences):
+        characters_in_scene = []
+        for char in characters:
+            # Simple name check (case-insensitive)
+            if char["name"].lower() in sentence.lower():
+                characters_in_scene.append(char["character_id"])
+
         scene_manifest["scenes"].append({
             "scene_id": idx + 1,
             "duration_sec": scene_duration,
             "visual": {
-                "environment": "home workspace",
-                "characters_present": ["char_1"],
-                "key_objects": ["laptop"],
-                "action": "person reflecting",
+                "environment": "",  # Placeholder - to be extracted from sentence
+                "characters_present": characters_in_scene,
+                "key_objects": [],  # Placeholder - to be extracted
+                "action": "",  # Placeholder - to be extracted
                 "camera": "static shot",
             },
-            "emotion": "neutral",
+            "emotion": "",  # Placeholder - to be extracted
             "narration": {
                 "text": sentences[idx],
                 "voice": "male",

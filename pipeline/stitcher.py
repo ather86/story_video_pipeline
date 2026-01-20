@@ -42,9 +42,10 @@ def stitch_final_video(run_id: str):
         ffmpeg_inputs.extend(["-i", str(clip_path)])
         filter_parts.append(f"[{idx}:v][{idx}:a]")
 
+    # Chain two filters: first concat all streams, then boost the final audio.
     filter_complex = (
         "".join(filter_parts)
-        + f"concat=n={len(scenes)}:v=1:a=1[outv][outa]"
+        + f"concat=n={len(scenes)}:v=1:a=1[outv][outa]; [outa]volume=2.0[final_audio]"
     )
 
     final_video_path = OUTPUT_DIR / f"{run_id}_final.mp4"
@@ -53,11 +54,12 @@ def stitch_final_video(run_id: str):
         "ffmpeg",
         "-y",
         *ffmpeg_inputs,
-        "-filter_complex", filter_complex,
+        "-filter_complex",
+        filter_complex,
 
         # explicit mapping
         "-map", "[outv]",
-        "-map", "[outa]",
+        "-map", "[final_audio]",
 
         # force audio compatibility
         "-ar", "44100",

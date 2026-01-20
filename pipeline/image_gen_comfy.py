@@ -26,6 +26,11 @@ def generate_images_with_comfy():
 
     scenes = manifest.get("scenes", [])
     global_style = manifest.get("global_style", {})
+    aspect_ratio = manifest.get("video_meta", {}).get("aspect_ratio", "16:9")
+
+    # Create a lookup map for character descriptions
+    characters = manifest.get("characters", [])
+    character_map = {c["character_id"]: c for c in characters}
 
     run_id = generate_run_id()
     print(f"[IMAGE GEN] Run ID: {run_id}")
@@ -36,16 +41,18 @@ def generate_images_with_comfy():
         # ✅ Build prompt ONLY from scene meaning
         prompt = build_image_prompt(
             scene=scene,
-            global_style=global_style
+            global_style=global_style,
+            character_map=character_map
         )
 
         print(f"[IMAGE GEN] Generating image for scene {scene_id}")
 
         run_comfy_api_workflow(
             api_workflow_path=str(API_WORKFLOW),
-            prompt_text=prompt,
+            prompts=prompt,
             run_id=run_id,
-            scene_id=scene_id
+            scene_id=scene_id,
+            aspect_ratio=aspect_ratio
         )
 
     return run_id

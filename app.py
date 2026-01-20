@@ -47,9 +47,10 @@ if st.button("🚀 Run Full Pipeline"):
 
     scenes = manifest["scenes"]
     global_style = manifest["global_style"]
+    aspect_ratio = manifest.get("video_meta", {}).get("aspect_ratio", "16:9")
 
     character_map = {
-        c["id"]: c for c in manifest.get("characters", [])
+        c["character_id"]: c for c in manifest.get("characters", [])
     }
 
     run_id = generate_run_id()
@@ -66,9 +67,10 @@ if st.button("🚀 Run Full Pipeline"):
 
                 run_comfy_api_workflow(
                     api_workflow_path="comfy/workflows/image_netayume_lumina_t2i_api.json",
-                    prompt_text=prompt,
+                    prompts=prompt,
                     run_id=run_id,
-                    scene_id=scene_id
+                    scene_id=scene_id,
+                    aspect_ratio=aspect_ratio
                 )
     else:
         st.info("⚡ Image generation skipped")
