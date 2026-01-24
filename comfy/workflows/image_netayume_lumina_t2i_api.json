@@ -105,7 +105,10 @@
     "inputs": {
       "value": "speech bubble, dialogue, talking, saying,\nwords, letters, text,\ncaption, subtitle,\ncomic style, meme, joke,\nexpression lines, sound effects,\nclose-up portrait, headshot, face centered, beauty shot\n"
     },
-    "class_type": "PrimitiveStringMultiline"
+    "class_type": "PrimitiveStringMultiline",
+    "_meta": {
+      "title": "Negative Prompt"
+    }
   },
 
   "25:7": {
@@ -133,7 +136,10 @@
     "inputs": {
       "value": ""
     },
-    "class_type": "PrimitiveStringMultiline"
+    "class_type": "PrimitiveStringMultiline",
+    "_meta": {
+      "title": "Positive Prompt"
+    }
   },
 
   "26:22": {

@@ -1,9 +1,9 @@
 {
   "video_meta": {
-    "title": "Story to Video",
+    "title": "AI Agent Story to Video",
     "platform": "linkedin",
     "aspect_ratio": "1:1",
-    "total_duration_sec": 16
+    "total_duration_sec": 56
   },
   "global_style": {
     "visual_style": "clean digital illustration",
@@ -13,286 +13,417 @@
   },
   "characters": [
     {
-      "character_id": "crow",
-      "name": "The Crow",
-      "description": "A sleek black bird with a greyish-black face and legs, wearing no discernible clothing as it is a bird"
+      "character_id": "pandu",
+      "name": "Pandu",
+      "description": "An elderly man with a gaunt face and a white beard.",
+      "ethnicity": "Indian"
+    },
+    {
+      "character_id": "dhrtarashtra",
+      "name": "Dhritarashtra",
+      "description": "A middle-aged man with a stern expression, wearing a traditional Indian garment.",
+      "ethnicity": "Indian"
+    },
+    {
+      "character_id": "yudhisthir",
+      "name": "Yudhisthir",
+      "description": "A young adult man with a compassionate face and a crown on his head.",
+      "ethnicity": "Indian"
+    },
+    {
+      "character_id": "duryodhan",
+      "name": "Duryodhana",
+      "description": "An older man with a strong jawline, wearing traditional Indian attire.",
+      "ethnicity": "Indian"
+    },
+    {
+      "character_id": "krsna",
+      "name": "Krishna",
+      "description": "A divine-looking figure with dark skin and a peaceful expression, dressed in traditional Indian attire.",
+      "ethnicity": "Indian"
+    },
+    {
+      "character_id": "arjun",
+      "name": "Arjuna",
+      "description": "A young adult man with a calm face, wearing traditional Indian attire and holding a bow.",
+      "ethnicity": "Indian"
     }
   ],
   "scenes": [
     {
       "scene_id": 1,
-      "duration_sec": 1,
+      "duration_sec": 4,
       "visual": {
-        "environment": "",
-        "characters_present": [],
-        "key_objects": [],
-        "action": "",
+        "environment": "an ancient Indian village",
+        "characters_present": [
+          "pandu",
+          "dhrtarashtra"
+        ],
+        "key_objects": [
+          "two brothers, Pandu and Dhritarashtra"
+        ],
+        "action": "Establishing shot of the two brothers",
         "camera": "static shot"
       },
-      "emotion": "",
+      "emotion": "nostalgic",
+      "importance": "high",
+      "negative_prompt_keywords": [
+        "modern"
+      ],
       "narration": {
-        "text": "One hot day, a thirsty crow flew all over the fields looking for water.",
+        "text": "यह कहानी महाभारत से है, पाण्डु और धृतराष्ट्र नाम के दो भाई थे।",
         "voice": "male",
         "pace": "normal"
       }
     },
     {
       "scene_id": 2,
-      "duration_sec": 1,
+      "duration_sec": 4,
       "visual": {
-        "environment": "",
-        "characters_present": [],
-        "key_objects": [],
-        "action": "",
+        "environment": "a royal court",
+        "characters_present": [
+          "pandu",
+          "dhrtarashtra"
+        ],
+        "key_objects": [
+          "Pandu on the throne",
+          "Dhritarashtra watching"
+        ],
+        "action": "A shot of Pandu sitting on the throne, with Dhritarashtra observing",
         "camera": "static shot"
       },
-      "emotion": "",
+      "emotion": "regal",
+      "importance": "high",
+      "negative_prompt_keywords": [],
       "narration": {
-        "text": "For a long time, he could not find any.",
+        "text": "ध्रतराष्ट्र पाण्डु से बड़े थे पर वो देख नहीं सकते थे इसलिए पाण्डु राजा बने।",
         "voice": "male",
         "pace": "normal"
       }
     },
     {
       "scene_id": 3,
-      "duration_sec": 1,
+      "duration_sec": 4,
       "visual": {
-        "environment": "",
-        "characters_present": [],
-        "key_objects": [],
-        "action": "",
+        "environment": "a palace with family members",
+        "characters_present": [
+          "pandu",
+          "dhrtarashtra",
+          "yudhisthir",
+          "duryodhan",
+          "arjun",
+          "krsna"
+        ],
+        "key_objects": [
+          "Pandu's five sons, the Pandavas",
+          "Dhritarashtra's hundred sons, the Kauravas"
+        ],
+        "action": "A shot of both families gathered together",
         "camera": "static shot"
       },
-      "emotion": "",
+      "emotion": "joyful",
+      "importance": "high",
+      "negative_prompt_keywords": [],
       "narration": {
-        "text": "He felt very weak, almost lost all hope.",
+        "text": "पाण्डु के पाँच पुत्र थे जिन्हें पांडव कहा जाता था और धृतराष्ट्र के सौ पुत्र थे जिन्हें कौरव कहा जाता था।",
         "voice": "male",
         "pace": "normal"
       }
     },
     {
       "scene_id": 4,
-      "duration_sec": 1,
+      "duration_sec": 4,
       "visual": {
-        "environment": "",
-        "characters_present": [],
-        "key_objects": [],
-        "action": "",
+        "environment": "a sickbed with Pandu",
+        "characters_present": [
+          "pandu",
+          "yudhisthir",
+          "duryodhan",
+          "arjun",
+          "krsna"
+        ],
+        "key_objects": [
+          "Pandu's illness",
+          "his sons gathered around"
+        ],
+        "action": "A shot of Pandu in his final moments, surrounded by his family",
         "camera": "static shot"
       },
-      "emotion": "",
+      "emotion": "sad",
+      "importance": "high",
+      "negative_prompt_keywords": [],
       "narration": {
-        "text": "Suddenly, he saw a water jug below the tree.",
+        "text": "पाण्डु बीमार रहते थे और जल्दी ही उनकी मृत्यु हो गई।",
         "voice": "male",
         "pace": "normal"
       }
     },
     {
       "scene_id": 5,
-      "duration_sec": 1,
+      "duration_sec": 4,
       "visual": {
-        "environment": "",
-        "characters_present": [],
-        "key_objects": [],
-        "action": "",
+        "environment": "a royal court with Dhritarashtra and the Pandavas/Kauravas",
+        "characters_present": [
+          "dhrtarashtra",
+          "yudhisthir",
+          "duryodhan",
+          "arjun",
+          "krsna"
+        ],
+        "key_objects": [
+          "Dhritarashtra, the new king",
+          "the Pandavas and Kauravas under his care"
+        ],
+        "action": "A shot of Dhritarashtra taking over as the new ruler",
         "camera": "static shot"
       },
-      "emotion": "",
+      "emotion": "regal",
+      "importance": "high",
+      "negative_prompt_keywords": [],
       "narration": {
-        "text": "He flew straight down to see if there was any water inside.",
+        "text": "पाण्डु की मृत्यु के बाद धृतराष्ट्र राजा बने और उन्होंने पांडवों और कौरवों की परवरिश की।",
         "voice": "male",
         "pace": "normal"
       }
     },
     {
       "scene_id": 6,
-      "duration_sec": 1,
+      "duration_sec": 4,
       "visual": {
-        "environment": "",
-        "characters_present": [],
-        "key_objects": [],
-        "action": "",
+        "environment": "a palace with Yudhisthir",
+        "characters_present": [
+          "yudhisthir",
+          "duryodhan",
+          "arjun",
+          "krsna"
+        ],
+        "key_objects": [
+          "Yudhisthir, the future king",
+          "his brothers gathered around"
+        ],
+        "action": "A shot of Yudhisthir being recognized as the next king",
         "camera": "static shot"
       },
-      "emotion": "",
+      "emotion": "hopeful",
+      "importance": "high",
+      "negative_prompt_keywords": [],
       "narration": {
-        "text": "Yes, he could see some water inside the jug!",
+        "text": "धृतराष्ट्र के बाद पांडवों के बड़े भाई युधिष्ठिर को राजा बनना था।",
         "voice": "male",
         "pace": "normal"
       }
     },
     {
       "scene_id": 7,
-      "duration_sec": 1,
+      "duration_sec": 4,
       "visual": {
-        "environment": "",
+        "environment": "a palace with Duryodhana and Yudhisthir",
         "characters_present": [
-          "crow"
+          "duryodhan",
+          "yudhisthir",
+          "arjun",
+          "krsna"
         ],
-        "key_objects": [],
-        "action": "",
+        "key_objects": [
+          "Duryodhana's jealousy",
+          "Yudhisthir's determination"
+        ],
+        "action": "A shot of Duryodhana's resentment towards Yudhisthir",
         "camera": "static shot"
       },
-      "emotion": "",
+      "emotion": "tense",
+      "importance": "high",
+      "negative_prompt_keywords": [],
       "narration": {
-        "text": "The crow tried to push his head into the jug.",
+        "text": "पर कौरवों का बड़ा भाई दुर्योधन, युधिष्ठिर से जलता था और खुद राजा बनना चाहता था।",
         "voice": "male",
         "pace": "normal"
       }
     },
     {
       "scene_id": 8,
-      "duration_sec": 1,
+      "duration_sec": 4,
       "visual": {
-        "environment": "",
-        "characters_present": [],
-        "key_objects": [],
-        "action": "",
+        "environment": "a game board with the Pandavas and Kauravas",
+        "characters_present": [
+          "duryodhan",
+          "yudhisthir",
+          "arjun",
+          "krsna"
+        ],
+        "key_objects": [
+          "the dice game",
+          "Duryodhana's cheating"
+        ],
+        "action": "A shot of Duryodhana manipulating the game",
         "camera": "static shot"
       },
-      "emotion": "",
+      "emotion": "upset",
+      "importance": "high",
+      "negative_prompt_keywords": [],
       "narration": {
-        "text": "Sadly, he found that the neck of the jug was too narrow.",
+        "text": "दुर्योधन ने चालाकी से युधिष्ठिर को एक खेल (चौसर) में हराया।",
         "voice": "male",
         "pace": "normal"
       }
     },
     {
       "scene_id": 9,
-      "duration_sec": 1,
+      "duration_sec": 4,
       "visual": {
-        "environment": "",
-        "characters_present": [],
-        "key_objects": [],
-        "action": "",
+        "environment": "a forest with the Pandavas and Droupadi",
+        "characters_present": [
+          "duryodhan",
+          "yudhisthir",
+          "arjun",
+          "krsna",
+          "drupad"
+        ],
+        "key_objects": [
+          "the exiled Pandavas",
+          "Droupadi's sadness"
+        ],
+        "action": "A shot of the Pandavas being sent to exile",
         "camera": "static shot"
       },
-      "emotion": "",
+      "emotion": "sorrowful",
+      "importance": "high",
+      "negative_prompt_keywords": [],
       "narration": {
-        "text": "Then he tried to push the jug to tilt for the water to flow out, but the jug was too heavy.",
+        "text": "खेल की शर्त के हिसाब से दुर्योधन खुद राजा बन गया और पांडवो को उनकी पत्नी द्रौपदी के साथ जंगल भेज दिया।",
         "voice": "male",
         "pace": "normal"
       }
     },
     {
       "scene_id": 10,
-      "duration_sec": 1,
+      "duration_sec": 4,
       "visual": {
-        "environment": "",
+        "environment": "a royal court with the Pandavas and Yudhisthir",
         "characters_present": [
-          "crow"
+          "yudhisthir",
+          "duryodhan",
+          "arjun",
+          "krsna"
         ],
-        "key_objects": [],
-        "action": "",
+        "key_objects": [
+          "the Pandavas' return",
+          "Yudhisthir's determination"
+        ],
+        "action": "A shot of the Pandavas returning to reclaim their kingdom",
         "camera": "static shot"
       },
-      "emotion": "",
+      "emotion": "determined",
+      "importance": "high",
+      "negative_prompt_keywords": [],
       "narration": {
-        "text": "The crow thought hard for a while.",
+        "text": "जंगल में अपना समय पूरा करने के बाद पांडव वापस आए और उन्होंने अपने हिस्से का राज्य माँगा।",
         "voice": "male",
         "pace": "normal"
       }
     },
     {
       "scene_id": 11,
-      "duration_sec": 1,
+      "duration_sec": 4,
       "visual": {
-        "environment": "",
-        "characters_present": [],
-        "key_objects": [],
-        "action": "",
+        "environment": "a palace with Duryodhana and the Pandavas",
+        "characters_present": [
+          "duryodhan",
+          "yudhisthir",
+          "arjun",
+          "krsna"
+        ],
+        "key_objects": [
+          "Duryodhana's refusal",
+          "the Pandavas' disappointment"
+        ],
+        "action": "A shot of Duryodhana refusing to give up his kingdom",
         "camera": "static shot"
       },
-      "emotion": "",
+      "emotion": "bitter",
+      "importance": "high",
+      "negative_prompt_keywords": [],
       "narration": {
-        "text": "Then, looking around it, he saw some pebbles.",
+        "text": "पर दुर्योधन ने उन्हें राज्य देने से मना कर दिया।",
         "voice": "male",
         "pace": "normal"
       }
     },
     {
       "scene_id": 12,
-      "duration_sec": 1,
+      "duration_sec": 4,
       "visual": {
-        "environment": "",
-        "characters_present": [],
-        "key_objects": [],
-        "action": "",
+        "environment": "a battlefield with the Pandavas and Kauravas",
+        "characters_present": [
+          "yudhisthir",
+          "duryodhan",
+          "arjun",
+          "krsna"
+        ],
+        "key_objects": [
+          "the warring armies",
+          "Krishna's presence"
+        ],
+        "action": "A shot of the two armies engaging in battle",
         "camera": "static shot"
       },
-      "emotion": "",
+      "emotion": "warlike",
+      "importance": "high",
+      "negative_prompt_keywords": [],
       "narration": {
-        "text": "He suddenly had a good idea.",
+        "text": "पांडव और कौरव युद्ध करके इस मामले को सुलझाने का फैसला किया।",
         "voice": "male",
         "pace": "normal"
       }
     },
     {
       "scene_id": 13,
-      "duration_sec": 1,
+      "duration_sec": 4,
       "visual": {
-        "environment": "",
-        "characters_present": [],
-        "key_objects": [],
-        "action": "",
+        "environment": "the Kurukshetra battlefield with the Pandavas and Kauravas",
+        "characters_present": [
+          "yudhisthir",
+          "duryodhan",
+          "arjun",
+          "krsna"
+        ],
+        "key_objects": [
+          "Krishna's chariot",
+          "Arjuna's hesitation"
+        ],
+        "action": "A shot of the two armies facing off on the battlefield",
         "camera": "static shot"
       },
-      "emotion": "",
+      "emotion": "intense",
+      "importance": "high",
+      "negative_prompt_keywords": [],
       "narration": {
-        "text": "He started picking up the pebbles one by one, dropping each into the jug.",
+        "text": "पांडव और कौरव युद्ध के लिए कुरुक्षेत्र के मैदान में आमने-सामने आए।",
         "voice": "male",
         "pace": "normal"
       }
     },
     {
       "scene_id": 14,
-      "duration_sec": 1,
+      "duration_sec": 4,
       "visual": {
-        "environment": "",
-        "characters_present": [],
-        "key_objects": [],
-        "action": "",
-        "camera": "static shot"
-      },
-      "emotion": "",
-      "narration": {
-        "text": "As more and more pebbles filled the jug, the water level kept rising.",
-        "voice": "male",
-        "pace": "normal"
-      }
-    },
-    {
-      "scene_id": 15,
-      "duration_sec": 1,
-      "visual": {
-        "environment": "",
+        "environment": "Krishna's chariot with Arjuna",
         "characters_present": [
-          "crow"
+          "krsna",
+          "arjun"
         ],
-        "key_objects": [],
-        "action": "",
+        "key_objects": [
+          "Krishna as a charioteer",
+          "Arjuna's conflicted expression"
+        ],
+        "action": "A shot of Krishna guiding Arjuna's chariot",
         "camera": "static shot"
       },
-      "emotion": "",
+      "emotion": "thoughtful",
+      "importance": "high",
+      "negative_prompt_keywords": [],
       "narration": {
-        "text": "Soon it was high enough for the crow to drink.",
-        "voice": "male",
-        "pace": "normal"
-      }
-    },
-    {
-      "scene_id": 16,
-      "duration_sec": 1,
-      "visual": {
-        "environment": "",
-        "characters_present": [],
-        "key_objects": [],
-        "action": "",
-        "camera": "static shot"
-      },
-      "emotion": "",
-      "narration": {
-        "text": "His plan had worked!",
+        "text": "श्रीकृष्ण पांडवों के तीसरे भाई अर्जुन के सारथी थे।",
         "voice": "male",
         "pace": "normal"
       }

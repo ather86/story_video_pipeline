@@ -21,10 +21,7 @@ OUTPUT_DIR = Path("outputs/final")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def stitch_final_video(run_id: str):
-    with open(SCENE_PATH, "r", encoding="utf-8") as f:
-        manifest = json.load(f)
-
+def stitch_final_video(run_id: str, manifest: dict):
     scenes = manifest.get("scenes", [])
     if not scenes:
         raise RuntimeError("No scenes found to stitch.")

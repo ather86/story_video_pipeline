@@ -17,9 +17,11 @@ Fixes:
 
 import json
 import re
+import unicodedata
 import wave
 from pathlib import Path
 from TTS.api import TTS
+from src.utils.ollama_client import call_ollama_text
 
 
 SCENE_PATH = Path("schemas/scene_manifest.json")
@@ -28,29 +30,46 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 MODEL_NAME = "tts_models/multilingual/multi-dataset/xtts_v2"
 
+# --- NEW: Voice Configuration ---
+# Define preferred voices here. These names must match the available speakers from the model.
+VOICE_CONFIG = {
+    "narrator": "Claribel Dervla",
+    "character_voices": [
+        # Female
+        "Daisy Studious", "Gracie Wise", "Tammie Ema", "Alison Dietlinde",
+        "Gitta Nikolina", "Helena Waldeck",
+        # Male
+        "Andrew Chipper", "Badr Odhiambo", "Dionisio Schuyler", "Royston Min",
+        "Viktor Eka", "Sumesh Kumar" # Adding more diverse names
+    ]
+}
 
-# ---------- TEXT SAFETY ----------
 
-def sanitize_text(text: str) -> str:
+# ---------- HELPERS ----------
+
+def _is_mostly_ascii(text: str) -> bool:
+    """
+    Checks if a string is composed predominantly of ASCII characters,
+    which helps identify Romanized text.
+    """
     if not text:
-        return ""
+        return False
+    ascii_chars = sum(1 for char in text if ord(char) < 128)
+    return (ascii_chars / len(text)) > 0.9
 
-    replacements = {
-        "“": "",
-        "”": "",
-        "‘": "",
-        "’": "",
-        "—": " ",
-        "–": " ",
-    }
-    for k, v in replacements.items():
-        text = text.replace(k, v)
+def _transliterate_to_devanagari(text: str) -> str:
+    """Uses an LLM to transliterate Romanized Hindi to Devanagari script."""
+    prompt = f"""
+You are an expert transliteration tool. Your task is to convert the following Romanized Hindi text into its proper Devanagari script.
+- Do not translate the meaning.
+- Preserve punctuation like commas and periods.
+- Return only the final Devanagari text as a single, raw string.
 
-    text = re.sub(r"[^\w\s.,!?]", "", text)
-    text = re.sub(r"\s+", " ", text).strip()
+Romanized Text: "{text}"
 
-    return text
-
+Devanagari Output:
+"""
+    return call_ollama_text(prompt)
 
 def ensure_min_length(text: str) -> str:
     """
@@ -89,18 +108,20 @@ def load_tts():
     )
 
 
-def generate_audio(run_id: str):
+def generate_audio(run_id: str, manifest: dict, tts: "TTS", narrator_voice: str = None, language: str = "en"):
     """
-    Generates narration audio per scene.
+    Generates narration audio per scene using a provided TTS instance.
     Output files are isolated per run_id.
+
+    Args:
+        run_id: The unique identifier for this pipeline run.
+        manifest: The scene manifest dictionary.
+        tts: An initialized TTS object.
+        narrator_voice: The voice to use for the narrator, selected from the UI.
+        language: The language code for TTS (e.g., 'en', 'hi').
     """
-
-    with open(SCENE_PATH, "r", encoding="utf-8") as f:
-        manifest = json.load(f)
-
     characters = manifest.get("characters", [])
     scenes = manifest.get("scenes", [])
-    tts = load_tts()
 
     # --- Speaker Setup ---
     # The .speakers attribute is bugged in some versions of TTS.
@@ -112,33 +133,49 @@ def generate_audio(run_id: str):
     if not available_speakers:
         raise RuntimeError("No speakers found for the TTS model.")
 
-    # Assign a default narrator voice and unique voices to each character.
-    narrator_voice = available_speakers[0]
-    character_voice_map = {}
+    # --- NEW: Configurable & Stable Voice Assignment ---
+    # Use the voice from the UI if provided, otherwise use the config default.
+    default_narrator_voice = narrator_voice or VOICE_CONFIG["narrator"]
+    if default_narrator_voice not in available_speakers:
+        print(f"[TTS][WARN] Narrator voice '{default_narrator_voice}' not found. Falling back to '{available_speakers[0]}'.")
+        narrator_voice_to_use = available_speakers[0]
+    else:
+        narrator_voice_to_use = default_narrator_voice
 
-    # Start assigning from the second speaker to keep the first for the narrator
-    voice_idx = 1
+    character_voice_map = {}
+    # Use a pool of preferred character voices, falling back to all available if none match
+    voice_pool = [v for v in VOICE_CONFIG["character_voices"] if v in available_speakers and v != narrator_voice_to_use]
+    if not voice_pool:
+        voice_pool = [v for v in available_speakers if v != narrator_voice_to_use] or available_speakers
+
+    voice_idx = 0
     for char in characters:
         char_id = char["character_id"]
-        if voice_idx < len(available_speakers):
-            character_voice_map[char_id] = available_speakers[voice_idx]
-            voice_idx += 1
-        else:
-            # If we run out of unique speakers, reuse the narrator's voice
-            character_voice_map[char_id] = narrator_voice
-
-    print(f"   -> Default Narrator Voice: {narrator_voice}")
+        # Cycle through the voice pool for deterministic assignment
+        character_voice_map[char_id] = voice_pool[voice_idx % len(voice_pool)]
+        voice_idx += 1
+    print(f"   -> Narrator Voice: {narrator_voice_to_use}")
     for char_id, voice in character_voice_map.items():
         print(f"   -> Voice for '{char_id}': {voice}")
 
     for scene in scenes:
         scene_id = scene["scene_id"]
         raw_text = scene["narration"]["text"]
-
-        text = sanitize_text(raw_text)
+        text = raw_text
         if not text:
             print(f"[TTS] Scene {scene_id} skipped (empty text)")
             continue
+
+        # --- NEW: AI-Powered Transliteration Step ---
+        if language == "hi" and _is_mostly_ascii(text):
+            print(f"[TTS] Romanized Hindi detected for scene {scene_id}. Transliterating to Devanagari...")
+            try:
+                devanagari_text = _transliterate_to_devanagari(text)
+                print(f"     → Original: {text}")
+                print(f"     → Transliterated: {devanagari_text}")
+                text = devanagari_text
+            except Exception as e:
+                print(f"[TTS][WARN] Transliteration failed for scene {scene_id}: {e}. Using original Romanized text.")
 
         text = ensure_min_length(text)
 
@@ -148,7 +185,7 @@ def generate_audio(run_id: str):
         print(f"     Text → {text}")
 
         # Determine which speaker to use for this scene
-        speaker_to_use = narrator_voice
+        speaker_to_use = narrator_voice_to_use
         characters_in_scene = scene.get("visual", {}).get("characters_present", [])
 
         # If one character is present, use their voice. Otherwise, use the narrator.
@@ -162,7 +199,7 @@ def generate_audio(run_id: str):
             text=text,
             file_path=str(output_path),
             speaker=speaker_to_use,
-            language="en",
+            language=language,
             split_sentences=False,
         )
 
@@ -178,7 +215,7 @@ def generate_audio(run_id: str):
                 text=fallback_text,
                 file_path=str(output_path),
                 speaker=speaker_to_use,
-                language="en",
+                language=language,
                 split_sentences=False,
             )
 

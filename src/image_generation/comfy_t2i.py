@@ -70,43 +70,33 @@ def run_comfy_api_workflow(
         prompt_graph = deepcopy(json.load(f))
 
     # --------------------------------------------------
-    # 1️⃣ 🔥 CORRECT PROMPT INJECTION (SEMANTIC FIX)
-    # Inject story text into PrimitiveStringMultiline
-    # that feeds POSITIVE and NEGATIVE prompt chains
+    # 1️⃣ PROMPT INJECTION (Using Node Titles)
+    # We inject prompts by looking for nodes with specific titles.
+    # In ComfyUI, right-click a node and select "Title" to set its name.
+    # This creates a robust, explicit contract with the workflow.
     # --------------------------------------------------
-    positive_injected = False
-    negative_injected = False
+    def inject_prompt(graph, prompt_text, node_title):
+        # Find a node by its title. It can be a text encoder or a primitive string.
+        node = next((n for n in graph.values() if n.get("_meta", {}).get("title") == node_title), None)
+        if not node:
+            return False
 
-    # Find all potential prompt nodes first
-    prompt_nodes = [
-        node for node in prompt_graph.values()
-        if node.get("class_type") == "PrimitiveStringMultiline"
-    ]
+        # The input key is 'text' for encoders and 'value' for primitives.
+        if "text" in node["inputs"]:
+            node["inputs"]["text"] = prompt_text
+        elif "value" in node["inputs"]:
+            node["inputs"]["value"] = prompt_text
+        else:
+            # This node has a title but no recognizable text input
+            return False
 
-    # Try to identify and inject the negative prompt first
-    for node in prompt_nodes:
-        value = node.get("inputs", {}).get("value", "").lower()
-        if ("ugly" in value or "negative prompt" in value or "bad anatomy" in value) and "you are an assistant" not in value:
-            node["inputs"]["value"] = prompts["negative"]
-            negative_injected = True
-            print("[COMFY] ✓ Negative prompt injected.")
-            prompt_nodes.remove(node)  # Remove from list to avoid re-use
-            break
+        print(f"[COMFY] ✓ Injected prompt into node titled '{node_title}'.")
+        return True
 
-    # Assume the first remaining non-system prompt node is the positive one
-    for node in prompt_nodes:
-        value = node.get("inputs", {}).get("value", "").lower()
-        if "you are an assistant" in value or "speech bubble" in value:
-            continue
-        node["inputs"]["value"] = prompts["positive"]
-        positive_injected = True
-        print("[COMFY] ✓ Positive prompt injected.")
-        break
-
-    if not positive_injected:
-        raise RuntimeError(
-            "Failed to inject story prompt into POSITIVE prompt chain"
-        )
+    if not inject_prompt(prompt_graph, prompts["positive"], "Positive Prompt"):
+        raise RuntimeError("Could not find a node titled 'Positive Prompt' in the workflow. Please title the correct node in your ComfyUI workflow.")
+    if not inject_prompt(prompt_graph, prompts["negative"], "Negative Prompt"):
+        raise RuntimeError("Could not find a node titled 'Negative Prompt' in the workflow. Please title the correct node in your ComfyUI workflow.")
 
     # --------------------------------------------------
     # 2️⃣ Inject deterministic filename prefix

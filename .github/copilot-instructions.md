@@ -49,6 +49,17 @@
 
 ## Critical Workflows
 
+### Installation
+The project has several Python dependencies. Before running any scripts, make sure you have activated your virtual environment and installed the required packages.
+
+```bash
+# From the project root directory
+pip install -r requirements.txt
+```
+You also need to ensure your external services are running:
+- ComfyUI server at `http://127.0.0.1:8188`
+- Ollama server (if used for character extraction)
+
 ### Running the Full Pipeline
 ```bash
 streamlit run app.py
